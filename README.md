@@ -5,4 +5,6 @@
 
 * cd Sonas-Nuker
 
+* write your bot token in token.txt
+
 * python Sonas.py
