@@ -9,22 +9,22 @@ import os
 import time as T
 import subprocess
 
-expected_password = "1646613698SonasOnTop"
+#expected_password = "1646613698SonasOnTop"
 
-def get_password():
-    """Prompt the user for the password."""
-    password = input("Enter the password to start the bot: ")
-    return password.strip()
+#def get_password():
+#    """Prompt the user for the password."""
+#    password = input("Enter the password to start the bot: ")
+#    return password.strip()
 
-def validate_password(password):
-    """Validate the entered password."""
-    return password == expected_password
+#def validate_password(password):
+#    """Validate the entered password."""
+#    return password == expected_password
 
-password = get_password()
+#password = get_password()
 
-if not validate_password(password):
-    print("Wrong password, try again...")
-    get_password()
+#if not validate_password(password):
+#    print("Wrong password, try again...")
+#    get_password()
 
 with open('token.txt', 'r') as file:
     TOKEN = file.readline().strip()
@@ -68,8 +68,8 @@ async def on_ready():
                      ║ [1] !help                     ║   ║   [4] !scocials               ║  
                      ║ [2] !nuke                     ║   ║                               ║
                      ║ [3] !logBot                   ║   ║                               ║
-                     ║                               ║   ║                               ║
-                     ║                               ║   ║                               ║
+                     ║ [4] !banner                   ║   ║                               ║
+                     ║ [5] !about                    ║   ║                               ║
                      ║                               ║   ║                               ║
                      ║                               ║   ║                               ║
                      ║                               ║   ║                               ║
@@ -93,7 +93,9 @@ async def logBot(ctx):
 
 Sonas has been Disabled successfully, Rerun the program to Use the bot again!
 
-""")
+""", color=0xda57, ephemral=False)
+    await ctx.send(embed=embed)
+    
     await ctx.bot.logout()
     T.sleep(5)
     print(Fore.MAGENTA + f"{bot.user.name} has logged out successfully." + Fore.RESET)
@@ -107,9 +109,25 @@ async def help(ctx):
 !bot_stop - Logs the bot out
 !socials - Displays the Devs discord and the official discord server!
 
-""", color=0xd4af37, ephemeral=True)
+""", color=0xd4af37, ephemeral=False)
   await ctx.send(embed=embed)
 
+
+@bot.command()
+async def banner(ctx, url=None):
+    if url is None:
+        url = "https://cdn.discordapp.com/attachments/1242180438970073248/1242734417886318624/EarnIt.png?ex=664eea1e&is=664d989e&hm=e26c9554b64c105e346578a263adf3e18d6c2f67043583b22b1e2cbc28b5d8e0&"
+    embed = discord.Embed(title="Sonas Banner Logo -->", description="Our New Banner logo!", color=0x00ff00)
+    embed.set_thumbnail(url=url)
+    await ctx.send(embed=embed)
+
+@bot.command()
+async def about(ctx):
+    embed = discord.Embed(title="About the bot -->", description="""
+
+The bot was made by outerpsycho @discord
+
+""")
 
 @bot.command()
 async def socials(ctx):
@@ -129,7 +147,7 @@ async def clear(ctx, amount=100):  # Default to deleting 100 messages
     return
   try:
     deleted = await ctx.channel.purge(limit=amount)
-    await ctx.send(f"Successfully deleted {len(deleted)} messages.", ephemeral=True)
+    await ctx.send(f"Successfully deleted {len(deleted)} messages.")
   except discord.Forbidden:
     await ctx.send("I don't have permission to delete messages in this channel.")
 
